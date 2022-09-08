@@ -10,6 +10,14 @@ def CAPSLOCK_STATE():
     VK_CAPITAL = 0x14
     return hllDll.GetKeyState(VK_CAPITAL)
 print("Fetching preferences...")
+try:
+    open("config.txt", "r")
+except:
+    print("\"config.txt\" not found!")
+    with open("config.txt", "a") as f:
+        f.write("10")
+        f.close()
+    print("\"config.txt\" made with default value of 10 seconds.")
 with open("config.txt", "r") as f:
     timer_sv = int(f.read())
     f.close()
