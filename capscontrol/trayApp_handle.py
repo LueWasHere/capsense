@@ -17,5 +17,3 @@ def run():
     ))
 
     icon.run()
-
-run()
