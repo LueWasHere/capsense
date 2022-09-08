@@ -24,6 +24,8 @@ def main_loop(icon):
     running = True
     keyboard = Controller()
     while running == True:
+        while CAPSLOCK_STATE() != 1:
+            sleep(1) # just so we don't decrement the time while caps-lock isn't on
         sleep(1)
         timer -= 1
         if timer == 0:
