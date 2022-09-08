@@ -1,5 +1,5 @@
-from time import sleep
-
+# from time import sleep
+# above import is unused. why?
 import fcntl
 import os
 import struct
@@ -14,8 +14,8 @@ while True:
     bytes = fcntl.ioctl(console_fd, _KDGETLED, bytes)
     [leds_state] = struct.unpack('I', bytes)
     status = leds_state & caps_lock != 0
-        # Turn on caps lock
-        #fcntl.ioctl(console_fd, KDSETLED, 0x04)
+    # Turn on caps lock
+    # fcntl.ioctl(console_fd, KDSETLED, 0x04)
     if status == 1:
         # Turn off caps lock
         fcntl.ioctl(console_fd, KDSETLED, 0)
