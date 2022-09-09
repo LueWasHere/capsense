@@ -1,8 +1,9 @@
-from tkinter import Menu
+from turtle import listen
 import pystray
 from PIL import Image
 from time import sleep
 from pynput.keyboard import Key, Controller
+from keyboard import is_pressed
 
 def CAPSLOCK_STATE():
     import ctypes
@@ -28,24 +29,78 @@ def main_loop(icon):
     global running
     global timer
     global timer_sv
-    def on_press():
+    def on_press(key):
         return
-    def on_release():
+    def on_release(key):
         global timer_sv
+        global timer
+
         timer = timer_sv
-    listener = 0
     icon.visible = True
     running = True
     keyboard = Controller()
     while running == True:
-        with keyboard.Listener(
-            on_press=on_press,
-            on_release=on_release) as listener:
-        listener.join()
         while CAPSLOCK_STATE() != 1:
             sleep(1) # just so we don't decrement the timer while caps-lock isn't on
+            if running == False:
+                exit(0)
         sleep(1)
         timer -= 1
+        print(timer)
+        
+        # I take the walk of shame... I could find no other solution...
+        if is_pressed('A'):
+            timer = timer_sv
+        elif is_pressed('B'):
+            timer = timer_sv
+        elif is_pressed('C'):
+            timer = timer_sv
+        elif is_pressed('D'):
+            timer = timer_sv
+        elif is_pressed('E'):
+            timer = timer_sv
+        elif is_pressed('F'):
+            timer = timer_sv
+        elif is_pressed('G'):
+            timer = timer_sv
+        elif is_pressed('H'):
+            timer = timer_sv
+        elif is_pressed('I'):
+            timer = timer_sv
+        elif is_pressed('J'):
+            timer = timer_sv
+        elif is_pressed('K'):
+            timer = timer_sv
+        elif is_pressed('L'):
+            timer = timer_sv
+        elif is_pressed('M'):
+            timer = timer_sv
+        elif is_pressed('N'):
+            timer = timer_sv
+        elif is_pressed('O'):
+            timer = timer_sv
+        elif is_pressed('P'):
+            timer = timer_sv
+        elif is_pressed('Q'):
+            timer = timer_sv
+        elif is_pressed('R'):
+            timer = timer_sv
+        elif is_pressed('S'):
+            timer = timer_sv
+        elif is_pressed('T'):
+            timer = timer_sv
+        elif is_pressed('U'):
+            timer = timer_sv
+        elif is_pressed('V'):
+            timer = timer_sv
+        elif is_pressed('W'):
+            timer = timer_sv
+        elif is_pressed('X'):
+            timer = timer_sv
+        elif is_pressed('Y'):
+            timer = timer_sv
+        elif is_pressed('Z'):
+            timer = timer_sv
         if timer == 0:
             timer = timer_sv
             if CAPSLOCK_STATE() == 1:
@@ -54,7 +109,8 @@ def main_loop(icon):
                 keyboard.release(Key.caps_lock)
             else:
                 print("Caps isn't on...")
-    listener.release()
+    exit(0)
+        
 def run():
     global timer
     global timer_sv
@@ -95,3 +151,4 @@ def run():
     ))
 
     icon.run(main_loop)
+    exit(0)
