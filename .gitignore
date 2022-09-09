@@ -10,7 +10,8 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+# I know you want to distribute the program, but I don't want to see it. :)
+capscontrol/dist
 downloads/
 eggs/
 .eggs/
@@ -154,3 +155,9 @@ cython_debug/
 
 # I hate you jetbrains!
 .idea/
+
+# macOS sucks and I hate it
+.DS_Store
+
+# why are we even making a pycache? I hate you python
+/capscontrol/__pycache__

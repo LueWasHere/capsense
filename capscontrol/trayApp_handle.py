@@ -50,61 +50,23 @@ def main_loop(icon):
         timer -= 1
         print(timer)
 
-        # I take the walk of shame... I could find no other solution...
-        # TODO: find a better way to do this. please. I am desperate.
-        if is_pressed('A'):
-            timer = timer_sv
-        elif is_pressed('B'):
-            timer = timer_sv
-        elif is_pressed('C'):
-            timer = timer_sv
-        elif is_pressed('D'):
-            timer = timer_sv
-        elif is_pressed('E'):
-            timer = timer_sv
-        elif is_pressed('F'):
-            timer = timer_sv
-        elif is_pressed('G'):
-            timer = timer_sv
-        elif is_pressed('H'):
-            timer = timer_sv
-        elif is_pressed('I'):
-            timer = timer_sv
-        elif is_pressed('J'):
-            timer = timer_sv
-        elif is_pressed('K'):
-            timer = timer_sv
-        elif is_pressed('L'):
-            timer = timer_sv
-        elif is_pressed('M'):
-            timer = timer_sv
-        elif is_pressed('N'):
-            timer = timer_sv
-        elif is_pressed('O'):
-            timer = timer_sv
-        elif is_pressed('P'):
-            timer = timer_sv
-        elif is_pressed('Q'):
-            timer = timer_sv
-        elif is_pressed('R'):
-            timer = timer_sv
-        elif is_pressed('S'):
-            timer = timer_sv
-        elif is_pressed('T'):
-            timer = timer_sv
-        elif is_pressed('U'):
-            timer = timer_sv
-        elif is_pressed('V'):
-            timer = timer_sv
-        elif is_pressed('W'):
-            timer = timer_sv
-        elif is_pressed('X'):
-            timer = timer_sv
-        elif is_pressed('Y'):
-            timer = timer_sv
-        elif is_pressed('Z'):
-            timer = timer_sv
-        if timer == 0:
+        # The biggest array you'll ever see - I am sure there is a better way to do this
+        # TODO: Find a better way to do this
+        # this is every button on the keyboard. like, every single one.
+        buttons = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '@', '#',
+            '$', '%', '^', '&', '*', '(', ')', '_', '+', '{', '}', '|', ':',
+            '"', '<', '>', '?', '~', '`', '-', '=', '[', ']', '\\', ';', "'",
+            ',', '.', '/', ' '
+        ]
+        # if any of the buttons are pressed, reset the timer
+        for button in buttons:
+            if is_pressed(button):
+                timer = timer_sv
+                print("Reset timer.")
+        if timer == 0:  # if the timer is 0, turn off caps-lock
             timer = timer_sv
             if capslock_state() == 1:
                 print("Caps off")
@@ -115,15 +77,15 @@ def main_loop(icon):
     exit(0)
 
 
-def run():
+def run():  # run the main programme, and set up the tray icon
     global timer
     global timer_sv
     image = Image.open("icon.jpg")
 
-    def kill():
+    def kill():  # if the user chooses to exit, kill the programme
         global running
         running = False
-        print("quiting and saving preferences...")
+        print("Saving preferences and exiting...")
         with open("config.txt", "w") as config_file:
             config_file.write(str(timer_sv))
             config_file.close()
@@ -150,6 +112,7 @@ def run():
         timer_sv = 60 * 5
         print("Timer set to 5 minutes.")
 
+    # create the tray icon
     icon = pystray.Icon("Caps",
                         image,
                         "Capsense",
