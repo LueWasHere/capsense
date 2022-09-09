@@ -28,12 +28,22 @@ def main_loop(icon):
     global running
     global timer
     global timer_sv
+    def on_press():
+        return
+    def on_release():
+        global timer_sv
+        timer = timer_sv
+    listener = 0
     icon.visible = True
     running = True
     keyboard = Controller()
     while running == True:
+        with keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release) as listener:
+        listener.join()
         while CAPSLOCK_STATE() != 1:
-            sleep(1) # just so we don't decrement the time while caps-lock isn't on
+            sleep(1) # just so we don't decrement the timer while caps-lock isn't on
         sleep(1)
         timer -= 1
         if timer == 0:
@@ -44,6 +54,7 @@ def main_loop(icon):
                 keyboard.release(Key.caps_lock)
             else:
                 print("Caps isn't on...")
+    listener.release()
 def run():
     global timer
     global timer_sv
