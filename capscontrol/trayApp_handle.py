@@ -1,4 +1,4 @@
-from turtle import listen
+# from turtle import listen  # unused import
 import pystray
 from PIL import Image
 from time import sleep
@@ -7,22 +7,22 @@ from keyboard import is_pressed
 from sys import exit
 
 
-def CAPSLOCK_STATE():
+def capslock_state():
     import ctypes
-    hllDll = ctypes.WinDLL("User32.dll")
-    VK_CAPITAL = 0x14
-    return hllDll.GetKeyState(VK_CAPITAL)
+    hll_dll = ctypes.WinDLL("User32.dll")
+    vk_capital = 0x14
+    return hll_dll.GetKeyState(vk_capital)
 
 
 print("Fetching preferences...")
 try:
     open("config.txt", "r")
-except:
-    print("\"config.txt\" not found!")
+except FileNotFoundError:
+    print('"config.txt" not found!')
     with open("config.txt", "a") as f:
         f.write("10")
         f.close()
-    print("\"config.txt\" made with default value of 10 seconds.")
+    print('"config.txt" made with default value of 10 seconds.')
 with open("config.txt", "r") as f:
     timer_sv = int(f.read())
     f.close()
@@ -39,18 +39,19 @@ def main_loop(icon):
     icon.visible = True
     running = True
     keyboard = Controller()
-    while running == True:
-        while CAPSLOCK_STATE() != 1:
+    while running:
+        while capslock_state() != 1:
             sleep(
                 1
             )  # just so we don't decrement the timer while caps-lock isn't on
-            if running == False:
+            if not running:
                 exit(0)
         sleep(1)
         timer -= 1
         print(timer)
 
         # I take the walk of shame... I could find no other solution...
+        # TODO: find a better way to do this. please. I am desperate.
         if is_pressed('A'):
             timer = timer_sv
         elif is_pressed('B'):
@@ -105,7 +106,7 @@ def main_loop(icon):
             timer = timer_sv
         if timer == 0:
             timer = timer_sv
-            if CAPSLOCK_STATE() == 1:
+            if capslock_state() == 1:
                 print("Caps off")
                 keyboard.press(Key.caps_lock)
                 keyboard.release(Key.caps_lock)
@@ -123,42 +124,43 @@ def run():
         global running
         running = False
         print("quiting and saving preferences...")
-        with open("config.txt", "w") as f:
-            f.write(str(timer_sv))
-            f.close()
+        with open("config.txt", "w") as config_file:
+            config_file.write(str(timer_sv))
+            config_file.close()
         icon.stop()
         print("Done.")
 
-    def tens():
+    def timer_10():
         global timer_sv
         print("Timer set to 10 seconds.")
         timer_sv = 10
 
-    def thrs():
+    def timer_30():
         global timer_sv
         timer_sv = 30
         print("Timer set to 30 seconds.")
 
-    def onem():
+    def timer_60():
         global timer_sv
         timer_sv = 60
         print("Timer set to 1 minutes.")
 
-    def fivm():
+    def timer_300():
         global timer_sv
         timer_sv = 60 * 5
         print("Timer set to 5 minutes.")
 
     icon = pystray.Icon("Caps",
                         image,
+                        "Capsense",
                         menu=(
                             pystray.MenuItem(
-                                "Delay Before caps turn off",
+                                "Turn off Caps Lock after",
                                 pystray.Menu(
-                                    pystray.MenuItem("10 seconds", tens),
-                                    pystray.MenuItem("30 seconds", thrs),
-                                    pystray.MenuItem("1 minute", onem),
-                                    pystray.MenuItem("5 minutes", fivm),
+                                    pystray.MenuItem("10 seconds", timer_10),
+                                    pystray.MenuItem("30 seconds", timer_30),
+                                    pystray.MenuItem("1 minute", timer_60),
+                                    pystray.MenuItem("5 minutes", timer_300),
                                 )),
                             pystray.MenuItem("Quit", kill),
                         ))
