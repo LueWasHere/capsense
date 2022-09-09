@@ -4,6 +4,7 @@ from PIL import Image
 from time import sleep
 from pynput.keyboard import Key, Controller
 from keyboard import is_pressed
+from sys import exit
 
 
 def CAPSLOCK_STATE():
@@ -34,15 +35,6 @@ def main_loop(icon):
     global running
     global timer
     global timer_sv
-
-    def on_press(key):
-        return
-
-    def on_release(key):
-        global timer_sv
-        global timer
-
-        timer = timer_sv
 
     icon.visible = True
     running = True
