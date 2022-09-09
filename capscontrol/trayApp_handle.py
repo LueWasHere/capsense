@@ -5,11 +5,14 @@ from time import sleep
 from pynput.keyboard import Key, Controller
 from keyboard import is_pressed
 
+
 def CAPSLOCK_STATE():
     import ctypes
-    hllDll = ctypes.WinDLL ("User32.dll")
+    hllDll = ctypes.WinDLL("User32.dll")
     VK_CAPITAL = 0x14
     return hllDll.GetKeyState(VK_CAPITAL)
+
+
 print("Fetching preferences...")
 try:
     open("config.txt", "r")
@@ -25,29 +28,36 @@ with open("config.txt", "r") as f:
 timer = timer_sv
 running = False
 print("Done.")
+
+
 def main_loop(icon):
     global running
     global timer
     global timer_sv
+
     def on_press(key):
         return
+
     def on_release(key):
         global timer_sv
         global timer
 
         timer = timer_sv
+
     icon.visible = True
     running = True
     keyboard = Controller()
     while running == True:
         while CAPSLOCK_STATE() != 1:
-            sleep(1) # just so we don't decrement the timer while caps-lock isn't on
+            sleep(
+                1
+            )  # just so we don't decrement the timer while caps-lock isn't on
             if running == False:
                 exit(0)
         sleep(1)
         timer -= 1
         print(timer)
-        
+
         # I take the walk of shame... I could find no other solution...
         if is_pressed('A'):
             timer = timer_sv
@@ -110,11 +120,13 @@ def main_loop(icon):
             else:
                 print("Caps isn't on...")
     exit(0)
-        
+
+
 def run():
     global timer
     global timer_sv
     image = Image.open("icon.jpg")
+
     def kill():
         global running
         running = False
@@ -124,31 +136,40 @@ def run():
             f.close()
         icon.stop()
         print("Done.")
+
     def tens():
         global timer_sv
         print("Timer set to 10 seconds.")
         timer_sv = 10
+
     def thrs():
         global timer_sv
         timer_sv = 30
         print("Timer set to 30 seconds.")
+
     def onem():
         global timer_sv
         timer_sv = 60
         print("Timer set to 1 minutes.")
+
     def fivm():
         global timer_sv
-        timer_sv = 60*5
+        timer_sv = 60 * 5
         print("Timer set to 5 minutes.")
-    icon = pystray.Icon("Caps", image, menu=(
-        pystray.MenuItem("Delay Before caps turn off", pystray.Menu(
-            pystray.MenuItem("10 seconds", tens),
-            pystray.MenuItem("30 seconds", thrs),
-            pystray.MenuItem("1 minute", onem),
-            pystray.MenuItem("5 minutes", fivm),
-        )),
-        pystray.MenuItem("Quit", kill),
-    ))
+
+    icon = pystray.Icon("Caps",
+                        image,
+                        menu=(
+                            pystray.MenuItem(
+                                "Delay Before caps turn off",
+                                pystray.Menu(
+                                    pystray.MenuItem("10 seconds", tens),
+                                    pystray.MenuItem("30 seconds", thrs),
+                                    pystray.MenuItem("1 minute", onem),
+                                    pystray.MenuItem("5 minutes", fivm),
+                                )),
+                            pystray.MenuItem("Quit", kill),
+                        ))
 
     icon.run(main_loop)
     exit(0)
