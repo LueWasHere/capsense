@@ -1,3 +1,5 @@
+[![Capsense](https://i.imgur.com/9RlHP3Y.png)](https://github.com/LueWasHere/capsense)
+
 # What is Capsense?
 * Capsense automatically turns off Caps Lock after it's been on for a while. Capsense will not turn off Caps Lock while you are still typing (in caps).
 * Capsense works in the background as a tray app, or as a hidden process on Linux. It designed to be lightweight and unnoticeable.
