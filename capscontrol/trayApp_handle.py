@@ -71,6 +71,7 @@ def main_loop(icon):
                 print("Caps off")
                 keyboard.press(Key.caps_lock)  # why the fuck is this an integer?
                 keyboard.release(Key.caps_lock)  # @LueWasHere help help help.
+                # the reason it is an int is because its a hex address (either that or it's the key code: https://wiki.osdev.org/PS/2_Keyboard#Scan_Code_Set_1 )
             else:
                 print("Caps isn't on...")
     exit(0)
