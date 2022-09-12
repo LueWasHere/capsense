@@ -1,4 +1,3 @@
-# from turtle import listen  # unused import
 import pystray
 from PIL import Image
 from time import sleep
