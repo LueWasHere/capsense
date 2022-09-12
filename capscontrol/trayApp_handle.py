@@ -80,7 +80,7 @@ def main_loop(icon):
 def run():  # run the main programme, and set up the tray icon
     global timer
     global timer_sv
-    image = Image.open("icon.jpg")
+    image = Image.open("logo.png")
 
     def kill():  # if the user chooses to exit, kill the programme
         global running
