@@ -41,6 +41,4 @@ print("Done.")
 capslock_state()  # The capslock state cannot be determined with this function
 # We should use a different method of grabbing the current caps lock status - one that works on Mac.
 # TODO: find a way to grab the caps lock status on Mac.
-run()
-icon = Image.open('logo.png')
-main_loop(icon)
+run() # the run function handles getting the icon and running 'main_loop' function
