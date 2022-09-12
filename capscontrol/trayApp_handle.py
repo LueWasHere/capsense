@@ -12,7 +12,7 @@ def capslock_state():
     vk_capital = 0x14
     return hll_dll.GetKeyState(vk_capital)
 
-
+# I'd like to make this a function in the future, so we can just use fetch_prefs() in other files.
 print("Fetching preferences...")
 try:
     open("config.txt", "r")
@@ -69,8 +69,8 @@ def main_loop(icon):
             timer = timer_sv
             if capslock_state() == 1:
                 print("Caps off")
-                keyboard.press(Key.caps_lock)
-                keyboard.release(Key.caps_lock)
+                keyboard.press(Key.caps_lock)  # why the fuck is this an integer?
+                keyboard.release(Key.caps_lock)  # @LueWasHere help help help.
             else:
                 print("Caps isn't on...")
     exit(0)
