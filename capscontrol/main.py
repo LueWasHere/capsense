@@ -7,5 +7,5 @@ elif platform == "darwin":
     import darwin
     darwin.run()
 elif platform == "win32" or platform == "win64":
-    import trayApp_handle
-    trayApp_handle.run()
+    import windows
+    windows.run()
