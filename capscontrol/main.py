@@ -8,4 +8,5 @@ elif platform == "darwin":
     darwin.run()
 elif platform == "win32" or platform == "win64":
     import windows
-    windows.run()
+    capsense = windows.capsense()
+    capsense.run()
