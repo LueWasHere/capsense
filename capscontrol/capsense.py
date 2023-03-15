@@ -3,13 +3,7 @@ from PIL import Image
 from time import sleep
 import keyboard
 from sys import exit
-
-
-def capslock_state():
-    import ctypes
-    hll_dll = ctypes.WinDLL("User32.dll")
-    vk_capital = 0x14
-    return hll_dll.GetKeyState(vk_capital)
+from platform import system
 
 class capsense:
     def __init__(self) -> None: # Bam, functionized.
@@ -27,32 +21,54 @@ class capsense:
             f.close()
         self.timer = self.timer_sv
         self.running = True
+        if system() != 'Windows':
+            self.darwin_check = False # also applies for linux
         print("Done.")
+    def capslock_state(self):
+        import ctypes
+        hll_dll = ctypes.WinDLL("User32.dll")
+        vk_capital = 0x14
+        return hll_dll.GetKeyState(vk_capital)
     # perfectly balanced... As all things should be...
     def main_loop(self, icon):
         def on_press(key): # Gone, reduced to a previous git commit...
             if key != "caps lock":
                 self.timer = self.timer_sv
+            else:
+                if system() != 'Windows':
+                    if self.darwin_check:
+                        self.timer = self.timer_sv
+                        self.darwin_check = False
+                    else:
+                        self.darwin_check = True
         keyboard.on_press(on_press)
 
         icon.visible = True
         while self.running:
-            while not capslock_state():
-                # ponder the wonders of existence
-                sleep(1)
-                if self.timer != self.timer_sv:
-                    self.timer = self.timer_sv
-                if not self.running:
-                    exit(0)
+            if system() == 'Windows':
+                while not self.capslock_state():
+                    # ponder the wonders of existence
+                    sleep(1)
+                    if self.timer != self.timer_sv:
+                        self.timer = self.timer_sv
+                    if not self.running:
+                        exit(0)
+            else:
+                while not self.darwin_check:
+                    # ponder the wonders of McIntosh
+                    sleep(1)
+                    if self.timer != self.timer_sv:
+                        self.timer = self.timer_sv
+                    if not self.running:
+                        exit(0)
 
-            if self.timer == 1:
+            if self.timer == 0:
                 keyboard.press_and_release("caps lock")
                 print("I did what I was designed to do!")
 
-
+            print(f"{self.timer}...")
             sleep(1)
             self.timer -= 1
-            print(f"{self.timer}...")
         icon.stop()
         
         
